@@ -33,8 +33,8 @@
 #define STEPPERS_DISABLE_PORT    PORTB
 #define STEPPERS_DISABLE_BIT         0
 
-#define STEPPING_DDR       DDRD
-#define STEPPING_PORT      PORTD
+//#define STEPPING_DDR       DDRD
+//#define STEPPING_PORT      PORTD
 #define X_STEP_BIT           2
 #define Y_STEP_BIT           3
 #define Z_STEP_BIT           4
@@ -103,7 +103,7 @@
 // #define STEPPERS_DISABLE_BIT         2
 // 
 // #define STEPPING_DDR       DDRC
-// #define STEPPING_PORT      PORTC 
+// #define STEPPING_PORT      PORTC
 // #define X_STEP_BIT           0
 // #define Y_STEP_BIT           1
 // #define Z_STEP_BIT           2

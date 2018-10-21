@@ -26,11 +26,12 @@
 #include "config.h"
 
 void limits_init() {
-  LIMIT_DDR &= ~(LIMIT_MASK);
+  //LIMIT_DDR &= ~(LIMIT_MASK);
 }
 
 static void homing_cycle(bool x_axis, bool y_axis, bool z_axis, bool reverse_direction, uint32_t microseconds_per_pulse) {
   // First home the Z axis
+/* NOT SUPPORTED
   uint32_t step_delay = microseconds_per_pulse - settings.pulse_microseconds;
   uint8_t out_bits = DIRECTION_MASK;
   uint8_t limit_bits;
@@ -75,6 +76,7 @@ static void homing_cycle(bool x_axis, bool y_axis, bool z_axis, bool reverse_dir
     STEPPING_PORT ^= out_bits & STEP_MASK;
     delay_us(step_delay);
   }
+  */
   return;
 }
 
