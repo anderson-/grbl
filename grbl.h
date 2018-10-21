@@ -43,6 +43,8 @@ extern "C" {
 #include "serial.h"
 
 int grbl_run(void);
+void spindle_up();
+void spindle_down();
 
 #ifdef __cplusplus
 }

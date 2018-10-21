@@ -22,6 +22,7 @@
 #include "settings.h"
 #include "config.h"
 #include "stepper.h"
+#include "grbl.h"
 
 #include <avr/io.h>
 
@@ -29,24 +30,19 @@ static int current_direction;
 
 void spindle_init()
 {
-  SPINDLE_ENABLE_DDR |= (1<<SPINDLE_ENABLE_BIT);
-  SPINDLE_DIRECTION_DDR |= (1<<SPINDLE_DIRECTION_BIT);
   spindle_run(0, 0);
 }
 
-void spindle_run(int direction, uint32_t rpm) 
+void spindle_run(int direction, uint32_t rpm)
 {
   if (direction != current_direction) {
     st_synchronize();
     if(direction) {
       if(direction > 0) {
-        SPINDLE_DIRECTION_PORT &= ~(1<<SPINDLE_DIRECTION_BIT);
+        spindle_up();
       } else {
-        SPINDLE_DIRECTION_PORT |= 1<<SPINDLE_DIRECTION_BIT;
+        spindle_down();
       }
-      SPINDLE_ENABLE_PORT |= 1<<SPINDLE_ENABLE_BIT;
-    } else {
-      SPINDLE_ENABLE_PORT &= ~(1<<SPINDLE_ENABLE_BIT);      
     }
     current_direction = direction;
   }
