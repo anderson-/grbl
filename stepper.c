@@ -85,17 +85,6 @@ static void st_wake_up()
   TIMSK1 |= (1<<OCIE1A);
 }
 
-// Stepper shutdown
-static void st_go_idle()
-{
-  // Cycle finished. Set flag to false.
-  cycle_start = false;
-  // Disable stepper driver interrupt
-  TIMSK1 &= ~(1<<OCIE1A);
-  // Force stepper dwell to lock axes for a defined amount of time to ensure the axes come to a complete
-  // stop and not drift from residual inertial forces at the end of the last movement.
-}
-
 // Initializes the trapezoid generator from the current block. Called whenever a new
 // block begins.
 static void trapezoid_generator_reset()
@@ -158,6 +147,25 @@ const int stepper_pins[3][4] = {
 		{STEPPER_Y_A1, STEPPER_Y_A2, STEPPER_Y_B1, STEPPER_Y_B2},
 		{STEPPER_Z_A1, STEPPER_Z_A2, STEPPER_Z_B1, STEPPER_Z_B2},
 		};
+
+
+// Stepper shutdown
+static void st_go_idle()
+{
+  // Cycle finished. Set flag to false.
+  cycle_start = false;
+  // Disable stepper driver interrupt
+  TIMSK1 &= ~(1<<OCIE1A);
+  // Force stepper dwell to lock axes for a defined amount of time to ensure the axes come to a complete
+  // stop and not drift from residual inertial forces at the end of the last movement.
+  #if STEPPER_IDLE_LOCK_TIME
+    _delay_ms(STEPPER_IDLE_LOCK_TIME);   
+  #endif
+  // Disable steppers by setting stepper disable
+  STEPPING_PORT_X = 0;
+  STEPPING_PORT_Y = 0;
+  STEPPING_PORT_Z = 0;
+}
 
 void do_full_step(int direction, int axis)
 {
